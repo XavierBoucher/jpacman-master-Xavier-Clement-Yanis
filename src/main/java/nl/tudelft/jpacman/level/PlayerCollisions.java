@@ -4,6 +4,8 @@ import nl.tudelft.jpacman.board.Unit;
 import nl.tudelft.jpacman.npc.Ghost;
 import nl.tudelft.jpacman.points.PointCalculator;
 
+import java.util.List;
+
 /**
  * A simple implementation of a collision map for the JPacman player.
  * <p>
@@ -19,6 +21,8 @@ public class PlayerCollisions implements CollisionMap {
 
     private PointCalculator pointCalculator;
 
+    private List<Ghost> ghosts;
+
     /**
      * Create a simple player-based collision map, informing the
      * point calculator about points to be added.
@@ -26,8 +30,9 @@ public class PlayerCollisions implements CollisionMap {
      * @param pointCalculator
      *             Strategy for calculating points.
      */
-    public PlayerCollisions(PointCalculator pointCalculator) {
+    public PlayerCollisions(PointCalculator pointCalculator, List<Ghost> ghosts) {
         this.pointCalculator = pointCalculator;
+        this.ghosts = ghosts;
     }
 
     @Override
@@ -75,7 +80,8 @@ public class PlayerCollisions implements CollisionMap {
      */
     public void playerVersusGhost(Player player, Ghost ghost) {
         pointCalculator.collidedWithAGhost(player, ghost);
-        player.setAlive(false);
+
+        player.ghostCollision();
         player.setKiller(ghost);
     }
 

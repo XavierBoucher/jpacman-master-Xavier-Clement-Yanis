@@ -110,7 +110,11 @@ public abstract class Game implements LevelObserver {
     }
 
     @Override
-    public void levelLost() {
-        stop();
+    public void ghostCollision() {
+        if (getLevel().getPlayer().getLife() < 0){
+            stop();
+        } else {
+            getLevel().restart();
+        }
     }
 }
