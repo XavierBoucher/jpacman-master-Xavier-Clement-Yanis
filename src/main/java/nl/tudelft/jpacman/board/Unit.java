@@ -2,9 +2,6 @@ package nl.tudelft.jpacman.board;
 
 import nl.tudelft.jpacman.sprite.Sprite;
 
-import javax.swing.JOptionPane;
-
-
 /**
  * A unit that can be placed on a {@link Square}.
  *
@@ -16,10 +13,6 @@ public abstract class Unit {
      * The square this unit is currently occupying.
      */
     private Square square;
-
-    private Square startingSquare;
-
-    private boolean haveStartingSquare= false;
 
     /**
      * The direction this unit is facing.
@@ -83,17 +76,11 @@ public abstract class Unit {
         if (square != null) {
             square.remove(this);
         }
-        if (!haveStartingSquare){
-            haveStartingSquare=true;
-            startingSquare=target;
-        }
         square = target;
         target.put(this);
         assert invariant();
     }
-    public void restart() {
-        occupy(startingSquare);
-    }
+
     /**
      * Leaves the currently occupying square, thus removing this unit from the board.
      */

@@ -78,8 +78,6 @@ public class Level {
      */
     private final Set<LevelObserver> observers;
 
-    private int nbLiveLastIteration;
-
     /**
      * Creates a new level for the board.
      *
@@ -151,7 +149,6 @@ public class Level {
         player.occupy(square);
         startSquareIndex++;
         startSquareIndex %= startSquares.size();
-        nbLiveLastIteration=player.getLife();
     }
 
     /**
@@ -161,10 +158,6 @@ public class Level {
      */
     public Board getBoard() {
         return board;
-    }
-
-    public Player getPlayer() {
-        return players.get(0);
     }
 
     /**
@@ -270,9 +263,9 @@ public class Level {
      * Updates the observers about the state of this level.
      */
     private void updateObservers() {
-        if (!isAnyPlayerAlive() || lifeLost()) {
+        if (!isAnyPlayerAlive()) {
             for (LevelObserver observer : observers) {
-                observer.ghostCollision();
+                observer.levelLost();
             }
         }
         if (remainingPellets() == 0) {
@@ -297,21 +290,7 @@ public class Level {
         }
         return false;
     }
-    public boolean lifeLost(){
-        if (players.get(0).getLife()<nbLiveLastIteration){
-            nbLiveLastIteration=players.get(0).getLife();
-            return true;
-        }
-        return false;
-    }
-    public void restart(){
-        for (Ghost ghost : npcs.keySet()) {
-            ghost.restart();
-        }
-        for (Player player : players) {
-            players.get(0).restart();
-        }
-    }
+
     /**
      * Counts the pellets remaining on the board.
      *
@@ -391,6 +370,6 @@ public class Level {
          * The level has been lost. Typically the level should be stopped when
          * this event is received.
          */
-        void ghostCollision();
+        void levelLost();
     }
 }

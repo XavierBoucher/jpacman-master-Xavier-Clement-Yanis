@@ -39,9 +39,6 @@ public class Player extends Unit {
      */
     private Unit killer;
 
-    private int life;
-
-
     /**
      * Creates a new player with a score of 0 points.
      *
@@ -50,13 +47,12 @@ public class Player extends Unit {
      * @param deathAnimation
      *            The sprite to be shown when this player dies.
      */
-    protected Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation, int life) {
+    protected Player(Map<Direction, Sprite> spriteMap, AnimatedSprite deathAnimation) {
         this.score = 0;
         this.alive = true;
         this.sprites = spriteMap;
         this.deathSprite = deathAnimation;
         deathSprite.setAnimating(false);
-        this.life=life;
     }
 
     /**
@@ -68,22 +64,15 @@ public class Player extends Unit {
         return alive;
     }
 
-    public int getLife() {
-        return life;
-    }
-
-    public void ghostCollision() {
-        life--;
-        if (life >-1){
-
-        }
-        else {
-            deathSprite.restart();
-            this.alive = false;
-        }
-    }
-
-    /*public void setAlive(boolean isAlive) {
+    /**
+     * Sets whether this player is alive or not.
+     *
+     * If the player comes back alive, the {@link killer} will be reset.
+     *
+     * @param isAlive
+     *            <code>true</code> iff this player is alive.
+     */
+    public void setAlive(boolean isAlive) {
         if (isAlive) {
             deathSprite.setAnimating(false);
             this.killer = null;
@@ -92,7 +81,7 @@ public class Player extends Unit {
             deathSprite.restart();
         }
         this.alive = isAlive;
-    }*/
+    }
 
     /**
      * Returns the unit that caused the death of Pac-Man.
